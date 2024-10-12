@@ -1,9 +1,9 @@
-FROM ubuntu:20.04
+FROM debian:bullseye-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=US/Central
 
-RUN apt-get update && apt-get install -y supervisor openssh-server openssh-client vim iputils-ping python
+RUN apt-get update && apt-get install -y openssh-server openssh-client vim iputils-ping 
 
 WORKDIR /usr/local
 
@@ -19,7 +19,7 @@ RUN echo "" >>.bashrc \
 
 # creates ssh private and public keys,
 # and creates authorized_keys to enable containers connect to each other via passwordless ssh
-RUN /usr/bin/bash -c "ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y 2>&1 >/dev/null" \
+RUN /bin/bash -c "ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y 2>&1 >/dev/null" \
  && cp .ssh/id_rsa.pub .ssh/authorized_keys
 
 
